@@ -1,75 +1,108 @@
-import React from 'react'
+import React, { memo } from 'react';
 import { motion } from 'framer-motion';
 
 import { AppWrap } from '../../wrapper';
 import { images } from '../../constants';
-import './Header.scss'
+import './Header.scss';
 
-const scaleVariants = {
-  whileInView: {
-    scale: [0, 1],
-    opacity: [0, 1],
-    transition: {
-      duration: 1,
-      ease: 'easeInOut',
-    },
-  },
+const slideVariants = {
+  hidden:  { x: -100, opacity: 0 },
+  visible: { x: 0,    opacity: 1, transition: { duration: 0.5 } },
 };
 
-const Header = () => {
-  return (
-    <div className="app__header app__flex">
-      <motion.div
-        whileInView={{ x: [-100, 0], opacity: [0, 1] }}
-        transition={{ duration: 0.5 }}
-        className="app__header-info"
-      >
+const fadeVariants = {
+  hidden:  { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 0.5 } },
+};
 
-        <div className="app__header-badge">
-          <div className="badge-cmp app__flex">
-            <span>👋</span>
-            <div style={{ marginLeft: 20 }}>
-              <p className="p-text">Hello, I am</p>
-              <h1 className="head-text">Carlos</h1>
-            </div>
-          </div>        
+const scaleVariants = {
+  hidden:  { scale: 0, opacity: 0 },
+  visible: { scale: 1, opacity: 1, transition: { duration: 1, ease: 'easeInOut' } },
+};
 
-          <div className="tag-cmp app__flex">
-            <p className="p-text">Web Developer</p>
-            <p className="p-text">Freelancer</p>
-          </div>          
-        </div>
-      </motion.div>
+const TECH_ICONS = [
+  { src: images.react,   alt: 'React'   },
+  { src: images.nextjs,  alt: 'Next.js' },
+  { src: images.sassiso, alt: 'Sass'    },
+];
 
-      <motion.div
-        whileInView={{ opacity: [0, 1] }}
-        transition={{ duration: 0.5, delayChildren: 0.5 }}
-        className="app__header-img"
-      >
-        <img src={images.profile2} alt="profile_bg" />
-        <motion.img
-          whileInView={{ scale: [0, 1] }}
-          transition={{ duration: 1, ease: 'easeInOut' }}
-          src={images.circle}
-          alt="profile_circle"
-          className="overlay_circle"
-        />
-      </motion.div>      
+const Header = memo(() => (
+  <div className="app__header app__flex">
 
-      <motion.div
-        variants={scaleVariants}
-        whileInView={scaleVariants.whileInView}
-        className="app__header-circles"
-      >
-        {[images.react, images.nextjs, images.sassiso].map((circle, index) => (
-          <div className="circle-cmp app__flex" key={`circle-${index}`}>
-            <img src={circle} alt="profile_bg" />
+    <motion.div
+      variants={slideVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true }}
+      className="app__header-info"
+    >
+      <div className="app__header-badge">
+        <div className="badge-cmp app__flex">
+          <span role="img" aria-label="Waving hand">👋</span>
+          <div style={{ marginLeft: 20 }}>
+            <p className="p-text">Hello, I am</p>
+            <h1 className="head-text">Carlos</h1>
           </div>
-        ))}        
-      </motion.div>
+        </div>
 
-    </div>
-  )
-}
+        <div className="tag-cmp app__flex">
+          <p className="p-text">Web Developer</p>
+          <p className="p-text">Freelancer</p>
+        </div>
+      </div>
+    </motion.div>
+
+    <motion.div
+      variants={fadeVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true }}
+      className="app__header-img"
+    >
+      <img
+        src={images.profile2}
+        alt="Carlos Gómez, Frontend Developer"
+        width="100%"
+        height="100%"
+        fetchPriority="high"
+      />
+      <motion.img
+        variants={scaleVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        src={images.circle}
+        alt=""
+        aria-hidden="true"
+        className="overlay_circle"
+        width={200}
+        height={200}
+      />
+    </motion.div>
+
+    <motion.div
+      variants={scaleVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true }}
+      className="app__header-circles"
+    >
+      {TECH_ICONS.map(({ src, alt }) => (
+        <div className="circle-cmp app__flex" key={alt}>
+          <img
+            src={src}
+            alt={alt}
+            width={128}
+            height={128}
+            loading="lazy"
+          />
+        </div>
+      ))}
+    </motion.div>
+
+  </div>
+));
+
+Header.displayName = 'Header';
 
 export default AppWrap(Header, 'home');

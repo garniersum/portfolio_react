@@ -12,13 +12,13 @@ import javascript from '../assets/javascript.png';
 import mu5 from '../assets/mu5.png';
 import node from '../assets/node.png';
 import python from '../assets/python.png';
-import react from '../assets/react.png';
+import react from '../assets/react.webp';
 import redux from '../assets/redux.png';
 import sass from '../assets/sass.png';
-import sassiso from '../assets/sassiso.png';
+import sassiso from '../assets/sassiso.webp';
 import typescript from '../assets/typescript.png';
 import vue from '../assets/vue.png';
-import nextjs from '../assets/nextjs.png';
+import nextjs from '../assets/nextjs.webp';
 
 import about01 from '../assets/about01.png';
 import about02 from '../assets/about02.png';
