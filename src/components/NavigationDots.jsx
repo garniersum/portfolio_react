@@ -1,19 +1,23 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable jsx-a11y/anchor-has-content */
 
-import React from 'react';
+import React, { memo } from 'react';
+import './NavigationDots.scss';
+const NAV_ITEMS = ['home', 'about', 'work', 'skills', 'testimonial', 'contact'];
 
-const NavigationDots = ({ active }) => (
+const NavigationDots = memo(({ active }) => (
   <div className="app__navigation">
-    {['home', 'about', 'work', 'skills', 'testimonial', 'contact'].map((item, index) => (
+    {NAV_ITEMS.map((item) => (
       <a
         href={`#${item}`}
-        key={item + index}
-        className="app__navigation-dot"
-        style={active === item ? { backgroundColor: '#313BAC' } : {}}
+        key={item}
+        aria-label={`Navigate to ${item}`}
+        className={`app__navigation-dot${active === item ? ' app__navigation-dot--active' : ''}`}
       />
     ))}
   </div>
-);
+));
+
+NavigationDots.displayName = 'NavigationDots';
 
 export default NavigationDots;
